@@ -59,7 +59,9 @@ class KneeFinder:
         if self.knee is not None:
             return self.knee
         diff = self.p1 - self.data
-        cross_prod = np.abs(np.cross(self.p2mp1, diff, axis=0))  # /norm(p2-p1) is useless in this context
+        #Because np.cross has been depreciated for non-3D vectors, we will just calculate the cross-product outright
+        cross_prod = np.abs((self.p2mp1[0] * diff[1]) - (self.p2mp1[1] * diff[0]))
+        #cross_prod = np.abs(np.cross(self.p2mp1, diff, axis=0))  # /norm(p2-p1) is useless in this context
         knee_position = np.argmax(cross_prod)
         self.knee = self.data[:, knee_position]
         return self.knee
